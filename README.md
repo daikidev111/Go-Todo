@@ -45,19 +45,19 @@ curl -X POST \
 curl -X PUT \
  -H "Content-Type: application/json" \
  -d '{"title": "", "description": ""}' \
- http://<link>/update/{id}
+ http://<link>/todo/update/{id}
 
 Example:
 curl -X PUT \
  -H "Content-Type: application/json" \
  -d '{"title": "bbb", "description": "bbb"}' \
- http://localhost:3000/update/4
+ http://localhost:3000/todo/update/4
 
 ## delete
 
 curl -X DELETE \
- http://<link>/delete/{id}
+ http://<link>/todo/delete/{id}
 
 Example:
 curl -X DELETE \
- http://localhost:3000/delete/4
+ http://localhost:3000/todo/delete/4

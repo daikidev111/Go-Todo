@@ -9,14 +9,14 @@ import (
 )
 
 func main() {
-  db, err := sql.Open("mysql", Config.DBUri(Config.BuildDBConfig()))
+  db, err := sql.Open("mysql", config.DBUri(config.BuildDBConfig()))
 	if err != nil {
     log.Fatal(err) // print the log and terminates the application with os.Exit(1)
 	}
 
-  Config.DB = db
-	defer Config.DB.Close()
+  config.DB = db
+	defer config.DB.Close()
 
-  r := Routes.SetupRouter()
+  r := routes.SetupRouter()
   r.Run()
 }

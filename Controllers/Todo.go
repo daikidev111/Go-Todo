@@ -1,4 +1,4 @@
-package Controllers
+package controllers
 
 import (
 	"net/http"
@@ -8,28 +8,34 @@ import (
   "log"
 )
 
-
+// requestTodo represents the request body for creating or updating a Todo.
 type requestTodo struct {
   ID uint `json:"id"`
   Title string `json:"title"`
   Description string `json:"description"`
 }
 
+// responseTodo represents the response body for a Todo.
 type responseTodo struct {
   ID          uint   `json:"id"`
   Title       string `json:"title"`
   Description string `json:"description"`
 }
 
+// GetTodos is a request handler for getting all Todos.
 func GetTodos(c *gin.Context) {
-	todos, err := Models.GetAllTodos()
+  // invoke GetAllTodos() from models.go to retrieve all todos
+	todos, err := models.GetAllTodos()
 	if err != nil {
     log.Println(err)
 		c.AbortWithStatus(http.StatusNotFound)
     return
 	}
-
+  
+  // convert the todos to responseTodo type
   res := []responseTodo{}
+
+  // iterate through the todos and append the responseTodo type to res
   for _, todos := range todos {
     res = append(res, responseTodo{
       ID: todos.ID,
@@ -37,10 +43,12 @@ func GetTodos(c *gin.Context) {
       Description: todos.Description,
     })
   }
-
+  
+  // return the responseTodo type along with the status code
 	c.JSON(http.StatusOK, res)
 }
 
+// CreateTodo is a request handler for creating a new Todo.
 func CreateTodo(c *gin.Context) {
     var req requestTodo
     if err := c.ShouldBindJSON(&req); err != nil {
@@ -49,7 +57,7 @@ func CreateTodo(c *gin.Context) {
       return
     } 
 
-    err := Models.CreateTodo(req.Title, req.Description)
+    err := models.CreateTodo(req.Title, req.Description)
     if err != nil {
         c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": "Failed to create a todo task"})
         return
@@ -62,6 +70,7 @@ func CreateTodo(c *gin.Context) {
     c.JSON(http.StatusCreated, res)
 }
 
+// GetTodoByID is a request handler for getting a Todo by its ID.
 func GetTodoByID(c *gin.Context) {
   id, err:= strconv.Atoi(c.Param("id"))
   if err != nil {
@@ -70,7 +79,7 @@ func GetTodoByID(c *gin.Context) {
     return
   }
 
-  todo, err := Models.GetTodoByID(uint(id))
+  todo, err := models.GetTodoByID(uint(id))
 	if err != nil {
     log.Println(err)
 		c.AbortWithStatus(http.StatusNotFound)
@@ -86,6 +95,7 @@ func GetTodoByID(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 }
 
+// UpdateTodo is a request handler for updating a Todo.
 func UpdateTodo(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
   if err != nil {
@@ -107,7 +117,7 @@ func UpdateTodo(c *gin.Context) {
     Description: req.Description,
   }
 
-	err = Models.UpdateTodo(req.ID, req.Title, req.Description)
+	err = models.UpdateTodo(req.ID, req.Title, req.Description)
 	if err != nil {
     log.Println(err)
 		c.AbortWithStatus(http.StatusNotFound)
@@ -117,6 +127,7 @@ func UpdateTodo(c *gin.Context) {
   c.JSON(http.StatusOK, gin.H{"success":"Successfully Updated"})
 }
 
+// DeleteTodo is a request handler for deleting a Todo.
 func DeleteTodo(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
   if err != nil {
@@ -125,7 +136,7 @@ func DeleteTodo(c *gin.Context) {
     return
   }
 
-	err = Models.DeleteTodo(uint(id))
+	err = models.DeleteTodo(uint(id))
 	if err != nil {
     log.Println(err)
 		c.AbortWithStatus(http.StatusNotFound)
