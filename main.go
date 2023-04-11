@@ -15,17 +15,17 @@ type Todo struct {
 }
 
 func main() {
-  log.Println("hello")
   db, err := sql.Open("mysql", os.Getenv("MYSQL_USER")+":"+os.Getenv("MYSQL_PASSWORD")+"@tcp("+os.Getenv("MYSQL_HOST")+":"+ "3306" +")/"+os.Getenv("DB_NAME"))
 	if err != nil {
     log.Fatal(err)
 	}
 	defer db.Close()
 
+  // test the DB connection
   err = db.Ping()
   if err != nil {
     log.Fatal(err)
   } else {
-    fmt.Println("DB connected")
+    fmt.Println("DB connected -> pong")
   }
 }
