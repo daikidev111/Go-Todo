@@ -22,40 +22,42 @@ git clone https://github.com/your-username/todo-app.git
 
 2. Install Go from the link below
 
-'''bash
+```bash
 https://go.dev/dl/
-'''
+```
 
 3. Install Docker
 
 - download and install the version of Docker for your OS from here:
 
-'''bash
+```bash
 https://docs.docker.com/get-docker/
-'''
+```
 
 - Note that for <b>Windows</b>, you will need to download wsl beforehand as well. You can find instructions for that here:
 
-'''bash
+```bash
 https://learn.microsoft.com/en-us/windows/wsl/install
-'''
+```
 
 ## Start the development server
 
 1. Start the docker containers
-
-- docker-compose build
-- docker-compose up -d
+  ```bash
+  docker-compose build
+  docker-compose up -d
+  ```
 
 2. Visit the link or access inside the api container
-
-- link: localhost:3000/todos
-- access inside the api container: docker exec -it api /bin/sh
+  ```bash
+  docker exec -it api /bin/sh
+  ```
+  - link: localhost:3000/todos
 
 3. Send a request (Once implemented)
 
 - create:
-  '''bash
+  ```bash
   curl -X POST \
    -H "Content-Type: application/json" \
    -d '{"title": "", "description": ""}' \
@@ -66,10 +68,10 @@ https://learn.microsoft.com/en-us/windows/wsl/install
    -H "Content-Type: application/json" \
    -d '{"title": "title", "description": "description"}' \
    http://localhost:3000/todo/create
-  '''
+  ```
 
 - update:
-  '''bash
+  ```bash
   curl -X PUT \
    -H "Content-Type: application/json" \
    -d '{"title": "", "description": ""}' \
@@ -80,14 +82,14 @@ https://learn.microsoft.com/en-us/windows/wsl/install
    -H "Content-Type: application/json" \
    -d '{"title": "bbb", "description": "bbb"}' \
    http://localhost:3000/todo/update/4
-  '''
+  ```
 
 - delete:
-  '''bash
+  ```bash
   curl -X DELETE \
    http://<link>/todo/delete/{id}
 
   Example:
   curl -X DELETE \
    http://localhost:3000/todo/delete/4
-  '''
+  ```
