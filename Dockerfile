@@ -1,13 +1,12 @@
-FROM golang:1.20-alpine3.16 AS builder 
-WORKDIR /app
-COPY go.mod go.sum ./
-RUN go mod download
-COPY . .
-RUN go build -o main /app/main.go
+FROM golang:1.20
 
-FROM alpine:3.16.0
 WORKDIR /app
-COPY --from=builder /app/main .
-RUN apk add --no-cache bash curl
+
+COPY . .
+
+RUN go mod download && go mod verify
+RUN go install -mod=mod github.com/githubnemo/CompileDaemon
+
 EXPOSE 3000
-CMD ["/app/main"]
+
+ENTRYPOINT CompileDaemon -log-prefix=false --build="go build -o main /app/main.go" --command="./main"

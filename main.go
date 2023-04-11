@@ -2,21 +2,30 @@ package main
 
 import (
   "log"
-  // "os"
-  "github.com/Go-Todo/Config"
-  "github.com/Go-Todo/Routes"
+  "os"
   "database/sql"
+  _ "github.com/go-sql-driver/mysql" 
+  "fmt"
 )
 
+type Todo struct {
+	ID        uint   `json:"id"`
+	Title     string `json:"title"`
+	Description bool `json:"completed"`
+}
+
 func main() {
-  db, err := sql.Open("mysql", config.DBUri(config.BuildDBConfig()))
+  log.Println("hello")
+  db, err := sql.Open("mysql", os.Getenv("MYSQL_USER")+":"+os.Getenv("MYSQL_PASSWORD")+"@tcp("+os.Getenv("MYSQL_HOST")+":"+ "3306" +")/"+os.Getenv("DB_NAME"))
 	if err != nil {
-    log.Fatal(err) // print the log and terminates the application with os.Exit(1)
+    log.Fatal(err)
 	}
+	defer db.Close()
 
-  config.DB = db
-	defer config.DB.Close()
-
-  r := routes.SetupRouter()
-  r.Run()
+  err = db.Ping()
+  if err != nil {
+    log.Fatal(err)
+  } else {
+    fmt.Println("DB connected")
+  }
 }
