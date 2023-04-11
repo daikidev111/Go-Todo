@@ -1,63 +1,101 @@
-# Go-Todo
+# Go-Todo App
 
-# Installation
+This is a simple Todo app that is used for the workshop hands-on session.
+Users can create, update, and delete tasks.
+The app is built using Golang/Gin and MySQL for data persistence.
 
-1. install go from this link (https://go.dev/dl/)
+## Features
 
-# Setup for golang application
+- Retrieve all the tasks
+- Retrieve a specific task by its ID
+- Create a task
+- Update a task
+- Delete a task
 
-## enable dependency tracking using go mod init command
+## Installation
 
-this creates a go.mod file that does dependency tracking
-go mod init example/hello
-go mod tidy -> authenticates the module, find the module and add it to the go.sum file for the dependency
+1. Clone the repository
 
-## install dependencies
+```bash
+git clone https://github.com/your-username/todo-app.git
+```
 
-go get github.com/gin-gonic/gin
-go get github.com/go-sql-driver/mysql
+2. Install Go from the link below (we use 1.2.0)
 
-## get started!
+```bash
+https://go.dev/dl/
+```
 
-# Setup for the todo api
+3. Install Docker
 
+- download and install the version of Docker for your OS from here:
+
+```bash
+https://docs.docker.com/get-docker/
+```
+
+- Note that for <b>Windows</b>, you will need to download wsl beforehand as well. You can find instructions for that here:
+
+```bash
+https://learn.microsoft.com/en-us/windows/wsl/install
+```
+
+## Start the development server
+
+1. Start the docker containers
+
+```bash
 docker-compose build
 docker-compose up -d
-go to the link localhost:3000/todos
+```
 
-# curl
+2. Visit the link or access inside the api container
 
-## create
+```bash
+docker exec -it api /bin/sh
+```
 
-curl -X POST \
- -H "Content-Type: application/json" \
- -d '{"title": "", "description": ""}' \
- http://<link>/todo/create
+- link: localhost:3000/todos
 
-Example:
-curl -X POST \
- -H "Content-Type: application/json" \
- -d '{"title": "title", "description": "description"}' \
- http://localhost:3000/todo/create
+3. Send a request (Once implemented)
 
-## update
+- create:
 
-curl -X PUT \
- -H "Content-Type: application/json" \
- -d '{"title": "", "description": ""}' \
- http://<link>/todo/update/{id}
+  ```bash
+  curl -X POST \
+   -H "Content-Type: application/json" \
+   -d '{"title": "", "description": ""}' \
+   http://<link>/todo/create
 
-Example:
-curl -X PUT \
- -H "Content-Type: application/json" \
- -d '{"title": "bbb", "description": "bbb"}' \
- http://localhost:3000/todo/update/4
+  Example:
+  curl -X POST \
+   -H "Content-Type: application/json" \
+   -d '{"title": "title", "description": "description"}' \
+   http://localhost:3000/todo/create
+  ```
 
-## delete
+- update:
 
-curl -X DELETE \
- http://<link>/todo/delete/{id}
+  ```bash
+  curl -X PUT \
+   -H "Content-Type: application/json" \
+   -d '{"title": "", "description": ""}' \
+   http://<link>/todo/update/{id}
 
-Example:
-curl -X DELETE \
- http://localhost:3000/todo/delete/4
+  Example:
+  curl -X PUT \
+   -H "Content-Type: application/json" \
+   -d '{"title": "bbb", "description": "bbb"}' \
+   http://localhost:3000/todo/update/4
+  ```
+
+- delete:
+
+  ```bash
+  curl -X DELETE \
+   http://<link>/todo/delete/{id}
+
+  Example:
+  curl -X DELETE \
+   http://localhost:3000/todo/delete/4
+  ```
