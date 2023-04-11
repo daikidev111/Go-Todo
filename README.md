@@ -17,7 +17,7 @@ The app is built using Golang/Gin and MySQL for data persistence.
 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/todo-app.git
+git clone https://github.com/daikidev111/Go-Todo.git
 ```
 
 2. Install Go from the link below (we use 1.2.0)
