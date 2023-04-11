@@ -28,4 +28,5 @@ func main() {
   } else {
     fmt.Println("DB connected -> pong")
   }
+
 }
